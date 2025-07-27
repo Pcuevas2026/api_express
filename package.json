@@ -4,7 +4,7 @@
     "description": "my first api with nodejs",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"    
+        "start": "node index.js"
     },
     "keywords": [
         "node",
@@ -13,9 +13,9 @@
     "author": "Pcuevas2026",
     "license": "ISC",
     "dependencies": {
-      "cors": "^2.8.5",
-      "express": "^4.18.2",
-      "mssql": "^10.0.1",
-      "mysql2": "^3.6.1"
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "mssql": "^10.0.1",
+        "mysql2": "^3.14.2"
     }
-}  
+}
