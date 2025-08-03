@@ -4,10 +4,7 @@ const pool = require('../db');
 
 router.get('/:clase', async (req, res, next) => {
     try {
-      const [alumnos] = await pool.query('SELECT * FROM clase_alumno WHERE id_clase = ?', [req.params.clase]);
-      if (alumnos.length === 0) {
-        return res.status(404).json({ message: 'Esta clase no tiene ningún alumno asignado' });
-      }
+      const [alumnos] = await pool.query('SELECT * FROM clase_alumno WHERE id_clase = ?', [req.params.clase]);      
       res.json(alumnos);
     } catch (error) {
       next(error);
