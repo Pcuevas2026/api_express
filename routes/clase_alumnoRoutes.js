@@ -23,7 +23,7 @@ router.get('/:clase', async (req, res, next) => {
       }
       
       await pool.query(
-        'INSERT INTO alumno (id_clase, id_alumno) VALUES (?, ?)',
+        'INSERT INTO clase_alumno (id_clase, id_alumno) VALUES (?, ?)',
         [id_clase, id_alumno]
       );
       
