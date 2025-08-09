@@ -7,7 +7,6 @@ const claseRoutes = require('./routes/claseRoutes');
 const maestroRoutes = require('./routes/maestroRoutes');
 const notaRoutes = require('./routes/notaRoutes');
 const preguntaRoutes = require('./routes/preguntaRoutes');
-const prueba_claseRoutes = require('./routes/prueba_claseRoutes');
 const pruebaRoutes = require('./routes/pruebaRoutes');
 require('dotenv').config();
 
@@ -25,7 +24,7 @@ app.use('/clases', claseRoutes);
 app.use('/maestros', maestroRoutes);
 app.use('/notas', notaRoutes);
 app.use('/preguntas', preguntaRoutes);
-app.use('/pruebas_clases', prueba_claseRoutes);
+
 app.use('/pruebas', pruebaRoutes);
 
 app.get('/', (req, res) => {

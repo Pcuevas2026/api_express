@@ -3,13 +3,13 @@ const router = express.Router();
 const pool = require('../db');
 
 router.get('/:usuario', async (req, res, next) => {
-    try {
-      const [clases] = await pool.query('SELECT * FROM clase WHERE usuario_maestro = ?', [req.params.usuario]);      
-      res.json(clases);
-    } catch (error) {
-      next(error);
-    }
-  });
+  try {
+    const [clases] = await pool.query('SELECT * FROM clase WHERE usuario_maestro = ?', [req.params.usuario]);      
+    res.json(clases);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post('/create', async (req, res, next) => {
   try {

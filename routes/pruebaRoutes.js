@@ -2,13 +2,10 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
-router.get('/:prueba', async (req, res, next) => {
+router.get('/:clase', async (req, res, next) => {
   try {
-    const [prueba] = await pool.query('SELECT * FROM prueba WHERE id_prueba = ?', [req.params.prueba]);
-    if (prueba.length === 0) {
-      return res.status(404).json({ message: 'Prueba no encontrada' });
-    }
-    res.json(prueba[0]);
+    const [pruebas] = await pool.query('SELECT * FROM prueba WHERE id_clase = ?', [req.params.clase]);
+    res.json(pruebas);
   } catch (error) {
     next(error);
   }
@@ -16,18 +13,19 @@ router.get('/:prueba', async (req, res, next) => {
 
 router.post('/create', async (req, res, next) => {
   try {
-    const {          
+    const {       
+        id_clase,   
         nombre,
         descripcion
     } = req.body;
     
-    if (!nombre) {
+    if (!id_clase || !nombre) {
       return res.status(400).json({ error: '¡Faltan campos requeridos!' });
     }
     
     const [result] = await pool.query(
-      'INSERT INTO prueba (nombre, descripcion) VALUES (?, ?)',
-      [nombre, descripcion]
+      'INSERT INTO prueba (id_clase, nombre, descripcion) VALUES (?, ?, ?)',
+      [id_clase, nombre, descripcion]
     );
     
     res.status(201).json({      
