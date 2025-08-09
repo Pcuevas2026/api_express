@@ -30,7 +30,7 @@ router.get('/:clase', async (req, res, next) => {
       res.status(201).json({              
         id_clase,
         id_alumno,
-        message: 'Registro creado correctamente!'
+        message: '¡Alumno asignado a clase correctamente!'
       });
     } catch (error) {
       next(error);
