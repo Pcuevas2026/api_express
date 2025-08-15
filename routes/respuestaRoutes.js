@@ -16,7 +16,7 @@ router.post('/create', async (req, res, next) => {
     }
     
     await pool.query(
-      'INSERT INTO pregunta (id_alumno, id_pregunta, respuesta, puntaje) VALUES (?, ?, ?, ?)',
+      'INSERT INTO respuesta (id_alumno, id_pregunta, respuesta, puntaje) VALUES (?, ?, ?, ?)',
       [id_alumno, id_pregunta, respuesta, puntaje]
     );
     
