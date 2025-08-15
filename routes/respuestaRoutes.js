@@ -6,23 +6,24 @@ router.post('/create', async (req, res, next) => {
   try {
     const {          
         id_alumno,
-        id_prueba,
-        nota
+        id_pregunta,
+        respuesta,
+        puntaje
     } = req.body;
     
-    if (!id_alumno || !id_prueba) {
+    if (!id_alumno || !id_pregunta) {
       return res.status(400).json({ error: '¡Faltan campos requeridos!' });
     }
     
     await pool.query(
-      'INSERT INTO nota (id_alumno, id_prueba, nota) VALUES (?, ?, ?)',
-      [id_alumno, id_prueba, nota]
+      'INSERT INTO pregunta (id_alumno, id_pregunta, respuesta, puntaje) VALUES (?, ?, ?, ?)',
+      [id_alumno, id_pregunta, respuesta, puntaje]
     );
     
-    res.status(201).json({              
+    res.status(201).json({      
       id_alumno,
-      id_prueba,
-      message: '¡Nota de alumno creada correctamente!'
+      id_pregunta,
+      message: '¡Respuesta de alumno creada correctamente!'
     });
   } catch (error) {
     next(error);

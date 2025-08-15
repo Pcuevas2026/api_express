@@ -8,6 +8,7 @@ const maestroRoutes = require('./routes/maestroRoutes');
 const notaRoutes = require('./routes/notaRoutes');
 const preguntaRoutes = require('./routes/preguntaRoutes');
 const pruebaRoutes = require('./routes/pruebaRoutes');
+const respuestaRoutes = require('./routes/respuestaRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -24,8 +25,8 @@ app.use('/clases', claseRoutes);
 app.use('/maestros', maestroRoutes);
 app.use('/notas', notaRoutes);
 app.use('/preguntas', preguntaRoutes);
-
 app.use('/pruebas', pruebaRoutes);
+app.use('/respuestas', respuestaRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: '¡Bienvenido a la API del ESP32!' });
