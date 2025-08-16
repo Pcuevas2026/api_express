@@ -2,6 +2,24 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+router.get('/alumnos/:prueba', async (req, res, next) => {
+  try {
+    const [alumnos] = await pool.query('SELECT * FROM nota WHERE id_prueba = ?', [req.params.prueba]);      
+    res.json(alumnos);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/pruebas/:alumno', async (req, res, next) => {
+  try {
+    const [pruebas] = await pool.query('SELECT * FROM nota WHERE id_alumno = ?', [req.params.alumno]);      
+    res.json(pruebas);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post('/create', async (req, res, next) => {
   try {
     const {          
