@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+router.get('/llave/:llave_secreta', async (req, res, next) => {
+  try {
+    const [prueba] = await pool.query('SELECT * FROM prueba WHERE llave_secreta = ?', [req.params.llave_secreta]);
+    res.json(prueba[0]);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/:clase', async (req, res, next) => {
   try {
     const [pruebas] = await pool.query('SELECT * FROM prueba WHERE id_clase = ?', [req.params.clase]);
