@@ -11,6 +11,38 @@ router.get('/:clase', async (req, res, next) => {
   }
 });
 
+router.get('/jugar/:llave_secreta', async (req, res, next) => { 
+  try {
+    const [rows] = await pool.query(
+      `
+      SELECT
+        est.id_alumno,
+        pru.id_prueba,
+        pre.id_pregunta,
+        pru.nombre,
+        pre.pregunta,
+        pre.tipo,
+        est.primer_nombre,
+        est.segundo_nombre,
+        est.primer_apellido,
+        est.segundo_apellido
+      FROM prueba pru
+      INNER JOIN pregunta pre
+        ON pre.id_prueba = pru.id_prueba
+      INNER JOIN respuesta res
+        ON res.id_pregunta = pre.id_pregunta
+      INNER JOIN alumno est
+        ON est.id_alumno = res.id_alumno
+      WHERE pru.llave_secreta = ?
+      `,
+      [req.params.llave_secreta]
+    );
+    res.json(rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post('/create', async (req, res, next) => {
   try {
     const {
