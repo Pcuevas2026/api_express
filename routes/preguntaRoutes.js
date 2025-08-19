@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+router.get('/listado/:prueba', async (req, res, next) => {
+  try {
+    const [preguntas] = await pool.query('SELECT * FROM pregunta WHERE id_prueba = ?', [req.params.prueba]);
+    res.json(preguntas);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/:pregunta', async (req, res, next) => {
   try {
     const [pregunta] = await pool.query('SELECT * FROM pregunta WHERE id_pregunta = ?', [req.params.pregunta]);      
