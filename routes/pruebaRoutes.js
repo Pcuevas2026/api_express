@@ -5,7 +5,7 @@ const pool = require('../db');
 router.get('/llave/:llave_secreta', async (req, res, next) => {
   try {
     const [prueba] = await pool.query('SELECT * FROM prueba WHERE llave_secreta = ?', [req.params.llave_secreta]);
-    res.json(prueba[0]);
+    res.json(prueba);
   } catch (error) {
     next(error);
   }
