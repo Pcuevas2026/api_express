@@ -4,21 +4,23 @@ const pool = require('../db');
 
 router.get('/alumnos/:prueba', async (req, res, next) => {
   try {
-    const [alumnos] = await pool.query('SELECT * FROM nota WHERE id_prueba = ?', [req.params.prueba]);      
+    const [alumnos] = await pool.query(
+      `SELECT 
+         n.id_alumno,
+         replace(concat(al.primer_nombre, ' ',  al.segundo_nombre, ' ', al.primer_apellido, ' ', al.segundo_apellido),'  ',' ') as nombre_alumno,
+         n.nota
+       FROM nota n
+       INNER JOIN alumno al ON al.id_alumno = n.id_alumno
+       WHERE n.id_prueba = ?`,
+      [req.params.prueba]
+    );
+    
     res.json(alumnos);
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/pruebas/:alumno', async (req, res, next) => {
-  try {
-    const [pruebas] = await pool.query('SELECT * FROM nota WHERE id_alumno = ?', [req.params.alumno]);      
-    res.json(pruebas);
-  } catch (error) {
-    next(error);
-  }
-});
 
 router.post('/create', async (req, res, next) => {
   try {
