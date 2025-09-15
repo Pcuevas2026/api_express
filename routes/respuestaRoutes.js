@@ -8,8 +8,7 @@ router.get('/alumno/:alumno/prueba/:prueba', async (req, res, next) => {
       `SELECT 
          p.tipo,
          p.pregunta,
-         res.respuesta,
-         res.puntaje
+         res.respuesta         
        FROM pregunta p
        INNER JOIN respuesta res 
           ON res.id_pregunta = p.id_pregunta 
@@ -30,7 +29,7 @@ router.post('/create', async (req, res, next) => {
         id_alumno,
         id_pregunta,
         respuesta,
-        puntaje
+        es_correcta
     } = req.body;
     
     if (!id_alumno || !id_pregunta) {
@@ -38,8 +37,8 @@ router.post('/create', async (req, res, next) => {
     }
     
     await pool.query(
-      'INSERT INTO respuesta (id_alumno, id_pregunta, respuesta, puntaje) VALUES (?, ?, ?, ?)',
-      [id_alumno, id_pregunta, respuesta, puntaje]
+      'INSERT INTO respuesta (id_alumno, id_pregunta, respuesta, es_correcta) VALUES (?, ?, ?, ?)',
+      [id_alumno, id_pregunta, respuesta, es_correcta]
     );
     
     res.status(201).json({      
