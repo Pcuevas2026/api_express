@@ -8,7 +8,8 @@ router.get('/alumno/:alumno/prueba/:prueba', async (req, res, next) => {
       `SELECT 
          p.tipo,
          p.pregunta,
-         res.respuesta         
+         res.respuesta,
+         res.es_correcta
        FROM pregunta p
        INNER JOIN respuesta res 
           ON res.id_pregunta = p.id_pregunta 
