@@ -24,25 +24,22 @@ router.get('/jugar/:llave_secreta', async (req, res, next) => {
   try {
     const [rows] = await pool.query(
       `
-      SELECT
-        est.id_alumno,
-        pru.id_prueba,
+      SELECT        
         pre.id_pregunta,
-        pru.nombre,
-        pre.pregunta,
+        res.id_alumno,              
+        replace(concat(al.primer_nombre, ' ',  al.segundo_nombre, ' ', al.primer_apellido, ' ', al.segundo_apellido),'  ',' ') as nombre_alumno,
         pre.tipo,
-        est.primer_nombre,
-        est.segundo_nombre,
-        est.primer_apellido,
-        est.segundo_apellido
+        pre.pregunta
       FROM prueba pru
       INNER JOIN pregunta pre
         ON pre.id_prueba = pru.id_prueba
       INNER JOIN respuesta res
         ON res.id_pregunta = pre.id_pregunta
-      INNER JOIN alumno est
-        ON est.id_alumno = res.id_alumno
-      WHERE pru.llave_secreta = ?
+      INNER JOIN alumno al
+        ON al.id_alumno = res.id_alumno
+      WHERE
+        pru.llave_secreta = ?
+        and res.respuesta IS NULL
       `,
       [req.params.llave_secreta]
     );
