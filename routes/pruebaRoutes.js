@@ -20,13 +20,12 @@ router.get('/:clase', async (req, res, next) => {
   }
 });
 
-router.get('/jugar/:llave_secreta', async (req, res, next) => { 
+router.get('/jugar/:prueba/:alumno', async (req, res, next) => { 
   try {
     const [rows] = await pool.query(
       `
       SELECT        
-        pre.id_pregunta,
-        res.id_alumno,              
+        pre.id_pregunta,                
         replace(concat(al.primer_nombre, ' ',  al.segundo_nombre, ' ', al.primer_apellido, ' ', al.segundo_apellido),'  ',' ') as nombre_alumno,
         pre.tipo,
         pre.pregunta
@@ -38,10 +37,11 @@ router.get('/jugar/:llave_secreta', async (req, res, next) => {
       INNER JOIN alumno al
         ON al.id_alumno = res.id_alumno
       WHERE
-        pru.llave_secreta = ?
+        pru.id_prueba = ?
+        and res.id_alumno = ?
         and res.respuesta IS NULL
       `,
-      [req.params.llave_secreta]
+      [req.params.prueba, req.params.alumno]
     );
     res.json(rows);
   } catch (error) {
