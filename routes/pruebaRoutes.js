@@ -25,17 +25,14 @@ router.get('/jugar/:prueba/:alumno', async (req, res, next) => {
     const [rows] = await pool.query(
       `
       SELECT        
-        pre.id_pregunta,                
-        replace(concat(al.primer_nombre, ' ',  al.segundo_nombre, ' ', al.primer_apellido, ' ', al.segundo_apellido),'  ',' ') as nombre_alumno,
+        pre.id_pregunta,        
         pre.tipo,
         pre.pregunta
       FROM prueba pru
       INNER JOIN pregunta pre
         ON pre.id_prueba = pru.id_prueba
       INNER JOIN respuesta res
-        ON res.id_pregunta = pre.id_pregunta
-      INNER JOIN alumno al
-        ON al.id_alumno = res.id_alumno
+        ON res.id_pregunta = pre.id_pregunta      
       WHERE
         pru.id_prueba = ?
         and res.id_alumno = ?
