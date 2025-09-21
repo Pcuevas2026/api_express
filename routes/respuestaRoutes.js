@@ -52,4 +52,57 @@ router.post('/create', async (req, res, next) => {
   }
 });
 
+router.put('/respuesta/:id_alumno/:id_pregunta/:id_prueba', async (req, res, next) => {
+  try {
+    const { id_alumno, id_pregunta, id_prueba } = req.params;
+    const { respuesta, es_correcta } = req.body;
+
+    if (respuesta === undefined) {
+      return res.status(400).json({ error: 'Debes enviar el campo respuesta' });
+    }
+
+    await pool.query(
+      `UPDATE respuesta 
+       SET respuesta = ?, es_correcta = ?
+       WHERE id_alumno = ? AND id_pregunta = ?`,
+      [respuesta, es_correcta, id_alumno, id_pregunta]
+    );
+
+    // Actualizar nota también
+    
+    const [notaCalc] = await pool.query(
+      `
+      SELECT
+        COUNT(CASE WHEN es_correcta = 1 THEN respuesta END) as correctas
+      FROM respuesta
+      WHERE id_alumno = ?
+      AND id_pregunta IN(
+        SELECT id_pregunta
+        FROM pregunta
+        WHERE id_prueba = ?
+      )
+      `,
+      [id_alumno, id_prueba]
+    );
+
+    const correctas = notaCalc[0].correctas;
+
+    await pool.query(
+      `UPDATE nota 
+       SET nota = ? 
+       WHERE id_alumno = ? AND id_prueba = ?`,
+      [correctas, id_alumno, id_prueba]
+    );
+
+    res.json({
+      message: '¡Respuesta actualizada correctamente!',
+      id_alumno,
+      id_pregunta,
+      respuesta
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
