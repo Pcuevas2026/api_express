@@ -16,8 +16,7 @@ router.post('/create', async (req, res, next) => {
     const {
         usuario_maestro,
         nombre,
-        descripcion,
-        seccion
+        descripcion        
     } = req.body;
     
     if (!usuario_maestro || !nombre) {
@@ -25,8 +24,8 @@ router.post('/create', async (req, res, next) => {
     }
     
     const [result] = await pool.query(
-      'INSERT INTO clase (usuario_maestro, nombre, descripcion, seccion) VALUES (?, ?, ?, ?)',
-      [usuario_maestro, nombre, descripcion, seccion]
+      'INSERT INTO clase (usuario_maestro, nombre, descripcion) VALUES (?, ?, ?)',
+      [usuario_maestro, nombre, descripcion]
     );
     
     res.status(201).json({
