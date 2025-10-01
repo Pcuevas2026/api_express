@@ -13,6 +13,7 @@ router.get('/:clase', async (req, res, next) => {
       INNER JOIN alumno al
         ON al.id_alumno = ca.id_alumno
       WHERE id_clase = ?
+      ORDER BY replace(concat(al.primer_nombre, ' ',  al.segundo_nombre, ' ', al.primer_apellido, ' ', al.segundo_apellido),'  ',' ')
       `,
       [req.params.clase]
     );
